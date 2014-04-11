@@ -542,7 +542,8 @@ class CPushMod : public CModule
 
 #ifdef USE_CURL
             PutDebug("using libcurl");
-			make_curl_request(service_host, service_url, service_auth, params, use_port, use_ssl, use_post, options["debug"] == "on");
+			CURLcode res = make_curl_request(service_host, service_url, service_auth, params, use_port, use_ssl, use_post, options["debug"] == "on");
+			PutDebug("curl status code: " + CString(res));
 #else
             PutDebug("NOT using libcurl");
 			// Create the socket connection, write to it, and add it to the queue
@@ -1487,7 +1488,8 @@ class CPushMod : public CModule
 				}
 
 #ifdef USE_CURL
-				make_curl_request(service_host, service_url, service_auth, params, use_port, use_ssl, use_post, options["debug"] == "on");
+				CURLcode res = make_curl_request(service_host, service_url, service_auth, params, use_port, use_ssl, use_post, options["debug"] == "on");
+				PutDebug("curl status code: " + CString(res));
 #else
 				// Create the socket connection, write to it, and add it to the queue
 				CPushSocket *sock = new CPushSocket(this);
